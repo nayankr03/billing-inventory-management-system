@@ -1,0 +1,129 @@
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+/* Login Page */
+
+.login-page{
+    background:#f5f7fb;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    min-height:100vh;
+}
+
+.login-container{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.login-card{
+    width:400px;
+    background:#fff;
+    padding:35px;
+    border-radius:15px;
+    box-shadow:0 10px 30px rgba(0,0,0,.1);
+}
+
+.login-card h2{
+    text-align:center;
+    font-weight:600;
+    margin-bottom:10px;
+}
+
+.login-card p{
+    text-align:center;
+    color:#777;
+}
+
+body{
+    background:#f4f6f9;
+}
+
+/* Sidebar */
+
+.sidebar{
+    position:fixed;
+    top:0;
+    left:0;
+    width:250px;
+    height:100vh;
+    background:#2563eb;
+    color:#fff;
+}
+
+.logo{
+    text-align:center;
+    font-size:34px;
+    font-weight:700;
+    padding:25px 0;
+    border-bottom:1px solid rgba(255,255,255,.2);
+}
+
+.sidebar ul{
+    list-style:none;
+    padding:20px 0;
+}
+
+.sidebar ul li{
+    margin:5px 15px;
+}
+
+.sidebar ul li a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:#fff;
+    text-decoration:none;
+    padding:12px 15px;
+    border-radius:10px;
+    transition:.3s;
+}
+
+.sidebar ul li a:hover{
+    background:rgba(255,255,255,.15);
+}
+
+/* Main Content */
+
+.main-content{
+    margin-left:250px;
+    min-height:100vh;
+    padding:35px;
+    background:#f4f6f9;
+}
+
+/* Dashboard Cards */
+
+.card{
+    border:none;
+    border-radius:15px;
+    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+}
+
+.card-body{
+    text-align:center;
+    padding:30px;
+}
+
+.card-title{
+    color:#555;
+    font-size:18px;
+    margin-bottom:15px;
+}
+
+.card-value{
+    font-size:38px;
+    font-weight:700;
+    color:#2563eb;
+}
