@@ -37,7 +37,7 @@ $result = mysqli_query($conn, $sql);
             <div class="input-group" style="max-width:600px;">
                 <input type="text" name="search" class="form-control" placeholder="Search Customer..." value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
                 <button class="btn btn-primary"><i class="bi bi-search"></i> Search</button>
-                <a href="customers.php" class="btn btn-secondary">Reset</a>
+                <a href="customer.php" class="btn btn-secondary">Reset</a>
             </div>
         </form>
 

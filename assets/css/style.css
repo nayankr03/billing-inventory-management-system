@@ -1,3 +1,8 @@
+/* ==========================
+   BIMS - Billing & Inventory Management System
+   Modern UI
+========================== */
+
 *{
     margin:0;
     padding:0;
@@ -5,14 +10,21 @@
     font-family:'Poppins',sans-serif;
 }
 
-/* Login Page */
+body{
+    background:#f4f6fb;
+    color:#333;
+}
+
+/* ==========================
+   LOGIN
+========================== */
 
 .login-page{
-    background:#f5f7fb;
+    background:linear-gradient(135deg,#e5e3df,#cccdbf);
+    min-height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
-    min-height:100vh;
 }
 
 .login-container{
@@ -25,44 +37,45 @@
 .login-card{
     width:400px;
     background:#fff;
+    border-radius:18px;
     padding:35px;
-    border-radius:15px;
-    box-shadow:0 10px 30px rgba(0,0,0,.1);
+    box-shadow:0 20px 45px rgba(0,0,0,.15);
 }
 
 .login-card h2{
     text-align:center;
-    font-weight:600;
+    font-weight:700;
     margin-bottom:10px;
 }
 
 .login-card p{
     text-align:center;
-    color:#777;
+    color:#666;
+    margin-bottom:25px;
 }
 
-body{
-    background:#f4f6f9;
-}
-
-/* Sidebar */
+/* ==========================
+   SIDEBAR
+========================== */
 
 .sidebar{
     position:fixed;
-    top:0;
     left:0;
+    top:0;
     width:250px;
     height:100vh;
-    background:#2563eb;
-    color:#fff;
+    background:#1e3a8a;
+    overflow-y:auto;
+    box-shadow:5px 0 20px rgba(0,0,0,.08);
 }
 
 .logo{
+    color:#fff;
     text-align:center;
-    font-size:34px;
+    font-size:32px;
     font-weight:700;
     padding:25px 0;
-    border-bottom:1px solid rgba(255,255,255,.2);
+    border-bottom:1px solid rgba(255,255,255,.15);
 }
 
 .sidebar ul{
@@ -71,59 +84,223 @@ body{
 }
 
 .sidebar ul li{
-    margin:5px 15px;
+    margin:8px 15px;
 }
 
 .sidebar ul li a{
     display:flex;
     align-items:center;
     gap:12px;
+    padding:14px 16px;
     color:#fff;
     text-decoration:none;
-    padding:12px 15px;
-    border-radius:10px;
+    border-radius:12px;
     transition:.3s;
+    font-weight:500;
 }
 
 .sidebar ul li a:hover{
-    background:rgba(255,255,255,.15);
+    background:#2563eb;
+    transform:translateX(4px);
 }
 
-/* Main Content */
+/* ==========================
+   MAIN CONTENT
+========================== */
 
 .main-content{
     margin-left:250px;
-    min-height:100vh;
     padding:35px;
-    background:#f4f6f9;
+    min-height:100vh;
 }
 
-/* Dashboard Cards */
+/* ==========================
+   CARDS
+========================== */
 
 .card{
     border:none;
-    border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,.08);
+    border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
     transition:.3s;
 }
 
 .card:hover{
-    transform:translateY(-5px);
+    transform:translateY(-6px);
 }
 
 .card-body{
-    text-align:center;
     padding:30px;
 }
 
 .card-title{
-    color:#555;
-    font-size:18px;
-    margin-bottom:15px;
+    color:#666;
+    font-size:17px;
+    margin-bottom:10px;
 }
 
 .card-value{
     font-size:38px;
     font-weight:700;
     color:#2563eb;
+}
+
+/* ==========================
+   TABLE
+========================== */
+
+.table{
+    margin-bottom:0;
+}
+
+.table thead{
+    background:#2563eb;
+    color:#fff;
+}
+
+.table thead th{
+    border:none;
+    padding:14px;
+}
+
+.table tbody td{
+    vertical-align:middle;
+    padding:13px;
+}
+
+.table-hover tbody tr:hover{
+    background:#eef5ff;
+}
+
+/* ==========================
+   BUTTONS
+========================== */
+
+.btn{
+    border-radius:10px;
+    font-weight:500;
+}
+
+.btn-primary{
+    background:#2563eb;
+    border:none;
+}
+
+.btn-primary:hover{
+    background:#1d4ed8;
+}
+
+.btn-warning{
+    color:#fff;
+}
+
+.btn-success,
+.btn-danger,
+.btn-secondary{
+    border:none;
+}
+
+/* ==========================
+   FORMS
+========================== */
+
+.form-control,
+.form-select{
+    border-radius:10px;
+    height:46px;
+    border:1px solid #ddd;
+}
+
+.form-control:focus,
+.form-select:focus{
+    box-shadow:0 0 0 .2rem rgba(37,99,235,.2);
+    border-color:#2563eb;
+}
+
+textarea.form-control{
+    height:auto;
+}
+
+/* ==========================
+   BADGES
+========================== */
+
+.badge{
+    padding:7px 10px;
+    font-size:13px;
+    border-radius:8px;
+}
+
+/* ==========================
+   IMAGES
+========================== */
+
+.img-thumbnail{
+    border-radius:10px;
+}
+
+/* ==========================
+   SEARCH BAR
+========================== */
+
+.input-group .form-control{
+    border-top-right-radius:0;
+    border-bottom-right-radius:0;
+}
+
+.input-group .btn{
+    border-radius:0;
+}
+
+.input-group .btn:last-child{
+    border-top-right-radius:10px;
+    border-bottom-right-radius:10px;
+}
+
+/* ==========================
+   PAGE TITLE
+========================== */
+
+h2{
+    font-weight:700;
+    margin-bottom:25px;
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media(max-width:992px){
+
+.sidebar{
+    width:220px;
+}
+
+.main-content{
+    margin-left:220px;
+}
+
+}
+
+@media(max-width:768px){
+
+.sidebar{
+    position:relative;
+    width:100%;
+    height:auto;
+}
+
+.main-content{
+    margin-left:0;
+    padding:20px;
+}
+
+.login-card{
+    width:95%;
+}
+
+.table-responsive{
+    overflow-x:auto;
+}
+
 }

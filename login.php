@@ -59,8 +59,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="assets/css/style.css">
-
+    <link rel="stylesheet" href="/project/assets/css/style.css">
 </head>
 
 <body class="login-page">
@@ -68,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class="login-card">
 
-            <h2>Billing Inventory</h2>
+            <h2>Welcome To BIMS</h2>
 
             <p class="text-muted mb-4">
                 Login to continue
