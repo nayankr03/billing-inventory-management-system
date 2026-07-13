@@ -21,7 +21,7 @@
         </li>
 
         <li>
-            <a href="customers.php">
+            <a href="customer.php">
                 <i class="bi bi-people"></i>
                 Customers
             </a>
