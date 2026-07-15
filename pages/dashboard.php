@@ -56,7 +56,7 @@ $recent = mysqli_query($conn, "SELECT * FROM products ORDER BY id DESC LIMIT 5")
 <div class="main-content">
     <div class="container-fluid">
 
-        <h2 class="mb-4">Welcome, <?= htmlspecialchars($_SESSION['username']); ?> 👋</h2>
+        <h2 class="mb-4">Welcome, <?= htmlspecialchars($_SESSION['full_name']); ?> 👋</h2>
 
         <div class="row g-4">
 

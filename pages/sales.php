@@ -10,25 +10,140 @@ include "../includes/header.php";
 include "../includes/sidebar.php";
 
 // Search
-if (isset($_GET['search']) && $_GET['search'] != "") {
+$where = [];
+
+if (!empty($_GET['search'])) {
 
     $search = mysqli_real_escape_string($conn, $_GET['search']);
 
-    $sql = "SELECT sales.*, customers.customer_name
-            FROM sales
-            INNER JOIN customers ON sales.customer_id = customers.id
-            WHERE sales.invoice_no LIKE '%$search%'
+    $where[] = "(sales.invoice_no LIKE '%$search%'
             OR customers.customer_name LIKE '%$search%'
-            ORDER BY sales.id DESC";
-} else {
-
-    $sql = "SELECT sales.*, customers.customer_name
-            FROM sales
-            INNER JOIN customers ON sales.customer_id = customers.id
-            ORDER BY sales.id DESC";
+            OR customers.mobile LIKE '%$search%')";
 }
 
+if (!empty($_GET['from_date'])) {
+
+    $from = mysqli_real_escape_string($conn, $_GET['from_date']);
+
+    $where[] = "sales.invoice_date >= '$from'";
+}
+
+if (!empty($_GET['to_date'])) {
+
+    $to = mysqli_real_escape_string($conn, $_GET['to_date']);
+
+    $where[] = "sales.invoice_date <= '$to'";
+}
+
+$sql = "SELECT
+            sales.*,
+            customers.customer_name,
+            customers.mobile
+        FROM sales
+        INNER JOIN customers
+        ON sales.customer_id = customers.id";
+
+if (!empty($where)) {
+
+    $sql .= " WHERE " . implode(" AND ", $where);
+}
+/* -------------------------
+   PAGINATION
+--------------------------*/
+
+$limit = 10;
+
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+if ($page < 1) {
+    $page = 1;
+}
+
+$offset = ($page - 1) * $limit;
+
+$sql .= " ORDER BY sales.id DESC
+          LIMIT $offset, $limit";
+
 $result = mysqli_query($conn, $sql);
+
+$countSql = "SELECT COUNT(*) AS total
+             FROM sales
+             INNER JOIN customers
+             ON sales.customer_id = customers.id";
+
+if (!empty($where)) {
+
+    $countSql .= " WHERE " . implode(" AND ", $where);
+}
+
+$countResult = mysqli_query($conn, $countSql);
+
+$totalRows = mysqli_fetch_assoc($countResult)['total'];
+
+$totalPages = ceil($totalRows / $limit);
+
+/* -------------------------
+   KEEP SEARCH & FILTERS
+--------------------------*/
+
+$queryString = "";
+
+if (!empty($_GET['search'])) {
+    $queryString .= "&search=" . urlencode($_GET['search']);
+}
+
+if (!empty($_GET['from_date'])) {
+    $queryString .= "&from_date=" . urlencode($_GET['from_date']);
+}
+
+if (!empty($_GET['to_date'])) {
+    $queryString .= "&to_date=" . urlencode($_GET['to_date']);
+}
+
+/* -------------------------
+   SALES STATISTICS
+--------------------------*/
+
+// Total Sales
+$totalSales = mysqli_fetch_assoc(
+    mysqli_query($conn, "SELECT COUNT(*) AS total FROM sales")
+)['total'];
+
+// Today's Sales
+$todaySales = mysqli_fetch_assoc(
+    mysqli_query(
+        $conn,
+        "SELECT COUNT(*) AS total
+         FROM sales
+         WHERE invoice_date = CURDATE()"
+    )
+)['total'];
+
+// Total Revenue
+$totalRevenue = mysqli_fetch_assoc(
+    mysqli_query(
+        $conn,
+        "SELECT SUM(grand_total) AS revenue
+         FROM sales"
+    )
+)['revenue'];
+
+if ($totalRevenue == NULL) {
+    $totalRevenue = 0;
+}
+
+// Average Bill Value
+$averageBill = mysqli_fetch_assoc(
+    mysqli_query(
+        $conn,
+        "SELECT AVG(grand_total) AS avg_bill
+         FROM sales"
+    )
+)['avg_bill'];
+
+if ($averageBill == NULL) {
+    $averageBill = 0;
+}
 ?>
 
 <div class="main-content">
@@ -42,39 +157,137 @@ $result = mysqli_query($conn, $sql);
             </h2>
 
             <a href="new_sale.php" class="btn btn-primary">
-                <i class="bi bi-plus-circle"></i> New Sale
+                <i class="bi bi-plus-circle"></i> New Bill
             </a>
 
         </div>
+        <div class="row mb-4">
 
+            <div class="col-lg-3 col-md-6 mb-3">
+
+                <div class="card border-0 shadow-sm bg-primary text-white">
+
+                    <div class="card-body">
+
+                        <h6>Total Sales</h6>
+
+                        <h2><?= $totalSales; ?></h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-3">
+
+                <div class="card border-0 shadow-sm bg-success text-white">
+
+                    <div class="card-body">
+
+                        <h6>Today's Sales</h6>
+
+                        <h2><?= $todaySales; ?></h2>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-3">
+
+                <div class="card border-0 shadow-sm bg-warning text-dark">
+
+                    <div class="card-body">
+
+                        <h6>Total Revenue</h6>
+
+                        <h4>₹<?= number_format($totalRevenue, 2); ?></h4>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-3">
+
+                <div class="card border-0 shadow-sm bg-info text-white">
+
+                    <div class="card-body">
+
+                        <h6>Average Bill</h6>
+
+                        <h4>₹<?= number_format($averageBill, 2); ?></h4>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
         <div class="row mb-3">
 
             <div class="col-md-6">
 
                 <form method="GET">
 
-                    <div class="input-group">
+                    <div class="row g-2">
 
-                        <input
-                            type="text"
-                            name="search"
-                            class="form-control"
-                            placeholder="Search Invoice or Customer..."
-                            value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
+                        <div class="col-md-4">
 
-                        <button class="btn btn-primary">
+                            <input
+                                type="text"
+                                name="search"
+                                class="form-control"
+                                placeholder="Search Invoice, Customer or Mobile..."
+                                value="<?= isset($_GET['search']) ? htmlspecialchars($_GET['search']) : '' ?>">
 
-                            <i class="bi bi-search"></i>
+                        </div>
 
-                            Search
+                        <div class="col-md-2">
 
-                        </button>
+                            <input
+                                type="date"
+                                name="from_date"
+                                class="form-control"
+                                value="<?= $_GET['from_date'] ?? '' ?>">
 
-                        <a href="sales.php" class="btn btn-secondary">
+                        </div>
 
-                            Reset
+                        <div class="col-md-2">
 
-                        </a>
+                            <input
+                                type="date"
+                                name="to_date"
+                                class="form-control"
+                                value="<?= $_GET['to_date'] ?? '' ?>">
+
+                        </div>
+
+                        <div class="col-md-2">
+
+                            <button class="btn btn-primary w-100">
+
+                                <i class="bi bi-search"></i>
+
+                                Filter
+
+                            </button>
+
+                        </div>
+
+                        <div class="col-md-2">
+
+                            <a href="sales.php" class="btn btn-secondary w-100">
+
+                                Reset
+
+                            </a>
+
+                        </div>
 
                     </div>
 
@@ -103,6 +316,7 @@ $result = mysqli_query($conn, $sql);
                                 <th>Date</th>
 
                                 <th>Customer</th>
+                                <th>Mobile</th>
 
                                 <th>Payment</th>
 
@@ -151,6 +365,10 @@ $result = mysqli_query($conn, $sql);
                                         </td>
 
                                         <td>
+                                            <?= htmlspecialchars($row['mobile']); ?>
+                                        </td>
+
+                                        <td>
 
                                             <span class="badge bg-success">
 
@@ -172,16 +390,28 @@ $result = mysqli_query($conn, $sql);
 
                                         <td>
 
-                                            <a href="view_sale.php?id=<?= $row['id']; ?>"
-                                                class="btn btn-info btn-sm">
+                                            <a href="invoice.php?id=<?= $row['id']; ?>"
+                                                class="btn btn-info btn-sm"
+                                                title="View Invoice">
 
                                                 <i class="bi bi-eye"></i>
 
                                             </a>
 
-                                            <a href="delete_sale.php?id=<?= $row['id']; ?>"
-                                                class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Delete this sale?');">
+                                            <a href="invoice.php?id=<?= $row['id']; ?>"
+                                                target="_blank"
+                                                class="btn btn-success btn-sm"
+                                                title="Print Invoice">
+
+                                                <i class="bi bi-printer"></i>
+
+                                            </a>
+
+                                            </a>
+
+                                            <a href="#"
+                                                class="btn btn-danger btn-sm deleteSale"
+                                                data-id="<?= $row['id']; ?>">
 
                                                 <i class="bi bi-trash"></i>
 
@@ -214,6 +444,133 @@ $result = mysqli_query($conn, $sql);
 
                     </table>
 
+                    <nav class="mt-3">
+
+                        <ul class="pagination justify-content-end">
+
+                            <!-- Previous -->
+
+                            <li class="page-item <?= ($page <= 1) ? 'disabled' : ''; ?>">
+
+                                <a class="page-link"
+                                    href="?page=<?= $page - 1; ?><?= $queryString; ?>">
+
+                                    Previous
+
+                                </a>
+
+                            </li>
+
+                            <?php
+
+                            $start = max(1, $page - 2);
+                            $end = min($totalPages, $page + 2);
+
+                            if ($start > 1) {
+
+                            ?>
+
+                                <li class="page-item">
+
+                                    <a class="page-link"
+                                        href="?page=1<?= $queryString; ?>">
+
+                                        1
+
+                                    </a>
+
+                                </li>
+
+                                <?php
+
+                                if ($start > 2) {
+
+                                ?>
+
+                                    <li class="page-item disabled">
+
+                                        <span class="page-link">...</span>
+
+                                    </li>
+
+                                <?php
+
+                                }
+                            }
+
+                            for ($i = $start; $i <= $end; $i++) {
+
+                                ?>
+
+                                <li class="page-item <?= ($page == $i) ? 'active' : ''; ?>">
+
+                                    <a class="page-link"
+                                        href="?page=<?= $i; ?><?= $queryString; ?>">
+
+                                        <?= $i; ?>
+
+                                    </a>
+
+                                </li>
+
+                                <?php
+
+                            }
+
+                            if ($end < $totalPages) {
+
+                                if ($end < $totalPages - 1) {
+
+                                ?>
+
+                                    <li class="page-item disabled">
+
+                                        <span class="page-link">...</span>
+
+                                    </li>
+
+                                <?php
+
+                                }
+
+                                ?>
+
+                                <li class="page-item">
+
+                                    <a class="page-link"
+                                        href="?page=<?= $totalPages; ?><?= $queryString; ?>">
+
+                                        <?= $totalPages; ?>
+
+                                    </a>
+
+                                </li>
+
+                            <?php
+
+                            }
+
+                            ?>
+
+                            <!-- Next -->
+
+                            <li class="page-item <?= ($page >= $totalPages) ? 'disabled' : ''; ?>">
+
+                                <a class="page-link"
+                                    href="?page=<?= $page + 1; ?><?= $queryString; ?>">
+
+                                    Next
+
+                                </a>
+
+                            </li>
+
+                        </ul>
+
+                    </nav>
+
+
+
                 </div>
 
             </div>
@@ -223,5 +580,90 @@ $result = mysqli_query($conn, $sql);
     </div>
 
 </div>
+<script>
+    document.querySelectorAll(".deleteSale").forEach(button => {
+
+        button.addEventListener("click", function(e) {
+
+            e.preventDefault();
+
+            let saleId = this.dataset.id;
+
+            Swal.fire({
+
+                title: "Delete Sale?",
+                text: "This will restore product stock and permanently delete the invoice.",
+                icon: "warning",
+
+                showCancelButton: true,
+
+                confirmButtonColor: "#d33",
+
+                cancelButtonColor: "#3085d6",
+
+                confirmButtonText: "Yes, Delete",
+
+                cancelButtonText: "Cancel"
+
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+
+                    window.location =
+                        "delete_sale.php?id=" + saleId;
+
+                }
+
+            });
+
+        });
+
+    });
+</script>
+
+
+<?php
+
+if (isset($_SESSION['success'])) {
+?>
+
+    <script>
+        Swal.fire({
+
+            icon: "success",
+
+            title: "Success",
+
+            text: "<?= $_SESSION['success']; ?>"
+
+        });
+    </script>
+
+<?php
+
+    unset($_SESSION['success']);
+}
+
+if (isset($_SESSION['error'])) {
+?>
+
+    <script>
+        Swal.fire({
+
+            icon: "error",
+
+            title: "Error",
+
+            text: "<?= $_SESSION['error']; ?>"
+
+        });
+    </script>
+
+<?php
+
+    unset($_SESSION['error']);
+}
+
+?>
 
 <?php include "../includes/footer.php"; ?>

@@ -34,6 +34,21 @@
             </a>
         </li>
 
+
+        <li>
+            <a href="reports.php">
+                <i class="bi bi-bar-chart-line-fill"></i>
+                Reports
+            </a>
+        </li>
+
+        <li>
+            <a href="settings.php">
+                <i class="bi bi-gear-fill"></i>
+                Company Settings
+            </a>
+        </li>
+
         <li>
             <a href="../logout.php">
                 <i class="bi bi-box-arrow-right"></i>

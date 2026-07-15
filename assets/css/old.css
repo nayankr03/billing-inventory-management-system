@@ -1,0 +1,306 @@
+/* ==========================
+   BIMS - Billing & Inventory Management System
+   Modern UI
+========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:#f4f6fb;
+    color:#333;
+}
+
+/* ==========================
+   LOGIN
+========================== */
+
+.login-page{
+    background:linear-gradient(135deg,#e5e3df,#cccdbf);
+    min-height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.login-container{
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.login-card{
+    width:400px;
+    background:#fff;
+    border-radius:18px;
+    padding:35px;
+    box-shadow:0 20px 45px rgba(0,0,0,.15);
+}
+
+.login-card h2{
+    text-align:center;
+    font-weight:700;
+    margin-bottom:10px;
+}
+
+.login-card p{
+    text-align:center;
+    color:#666;
+    margin-bottom:25px;
+}
+
+/* ==========================
+   SIDEBAR
+========================== */
+
+.sidebar{
+    position:fixed;
+    left:0;
+    top:0;
+    width:250px;
+    height:100vh;
+    background:#1e3a8a;
+    overflow-y:auto;
+    box-shadow:5px 0 20px rgba(0,0,0,.08);
+}
+
+.logo{
+    color:#fff;
+    text-align:center;
+    font-size:32px;
+    font-weight:700;
+    padding:25px 0;
+    border-bottom:1px solid rgba(255,255,255,.15);
+}
+
+.sidebar ul{
+    list-style:none;
+    padding:20px 0;
+}
+
+.sidebar ul li{
+    margin:8px 15px;
+}
+
+.sidebar ul li a{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px 16px;
+    color:#fff;
+    text-decoration:none;
+    border-radius:12px;
+    transition:.3s;
+    font-weight:500;
+}
+
+.sidebar ul li a:hover{
+    background:#2563eb;
+    transform:translateX(4px);
+}
+
+/* ==========================
+   MAIN CONTENT
+========================== */
+
+.main-content{
+    margin-left:250px;
+    padding:35px;
+    min-height:100vh;
+}
+
+/* ==========================
+   CARDS
+========================== */
+
+.card{
+    border:none;
+    border-radius:18px;
+    box-shadow:0 10px 30px rgba(0,0,0,.08);
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-6px);
+}
+
+.card-body{
+    padding:30px;
+}
+
+.card-title{
+    color:#666;
+    font-size:17px;
+    margin-bottom:10px;
+}
+
+.card-value{
+    font-size:38px;
+    font-weight:700;
+    color:#2563eb;
+}
+
+/* ==========================
+   TABLE
+========================== */
+
+.table{
+    margin-bottom:0;
+}
+
+.table thead{
+    background:#2563eb;
+    color:#fff;
+}
+
+.table thead th{
+    border:none;
+    padding:14px;
+}
+
+.table tbody td{
+    vertical-align:middle;
+    padding:13px;
+}
+
+.table-hover tbody tr:hover{
+    background:#eef5ff;
+}
+
+/* ==========================
+   BUTTONS
+========================== */
+
+.btn{
+    border-radius:10px;
+    font-weight:500;
+}
+
+.btn-primary{
+    background:#2563eb;
+    border:none;
+}
+
+.btn-primary:hover{
+    background:#1d4ed8;
+}
+
+.btn-warning{
+    color:#fff;
+}
+
+.btn-success,
+.btn-danger,
+.btn-secondary{
+    border:none;
+}
+
+/* ==========================
+   FORMS
+========================== */
+
+.form-control,
+.form-select{
+    border-radius:10px;
+    height:46px;
+    border:1px solid #ddd;
+}
+
+.form-control:focus,
+.form-select:focus{
+    box-shadow:0 0 0 .2rem rgba(37,99,235,.2);
+    border-color:#2563eb;
+}
+
+textarea.form-control{
+    height:auto;
+}
+
+/* ==========================
+   BADGES
+========================== */
+
+.badge{
+    padding:7px 10px;
+    font-size:13px;
+    border-radius:8px;
+}
+
+/* ==========================
+   IMAGES
+========================== */
+
+.img-thumbnail{
+    border-radius:10px;
+}
+
+/* ==========================
+   SEARCH BAR
+========================== */
+
+.input-group .form-control{
+    border-top-right-radius:0;
+    border-bottom-right-radius:0;
+}
+
+.input-group .btn{
+    border-radius:0;
+}
+
+.input-group .btn:last-child{
+    border-top-right-radius:10px;
+    border-bottom-right-radius:10px;
+}
+
+/* ==========================
+   PAGE TITLE
+========================== */
+
+h2{
+    font-weight:700;
+    margin-bottom:25px;
+}
+
+/* ==========================
+   RESPONSIVE
+========================== */
+
+@media(max-width:992px){
+
+.sidebar{
+    width:220px;
+}
+
+.main-content{
+    margin-left:220px;
+}
+
+}
+
+@media(max-width:768px){
+
+.sidebar{
+    position:relative;
+    width:100%;
+    height:auto;
+}
+
+.main-content{
+    margin-left:0;
+    padding:20px;
+}
+
+.login-card{
+    width:95%;
+}
+
+.table-responsive{
+    overflow-x:auto;
+}
+
+}
