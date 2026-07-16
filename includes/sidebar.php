@@ -21,19 +21,18 @@
         </li>
 
         <li>
-            <a href="customer.php">
-                <i class="bi bi-people"></i>
-                Customers
-            </a>
-        </li>
-
-        <li>
             <a href="sales.php">
                 <i class="bi bi-cart-check"></i>
                 Sales
             </a>
         </li>
 
+        <li>
+            <a href="customer.php">
+                <i class="bi bi-people"></i>
+                Customers
+            </a>
+        </li>
 
         <li>
             <a href="reports.php">
