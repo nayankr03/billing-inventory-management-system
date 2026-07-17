@@ -1,9 +1,9 @@
 <?php
 require_once "../includes/config.php";
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../login.php");
-    exit();
-}
+require_once "../includes/auth.php";
+
+staffOnly();
+
 include "../includes/header.php";
 include "../includes/sidebar.php";
 

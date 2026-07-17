@@ -1,32 +1,30 @@
 <?php
-    require_once "../includes/config.php";
+require_once "../includes/config.php";
+require_once "../includes/auth.php";
 
-    if (!isset($_SESSION['user_id'])) {
-        header("Location: ../login.php");
-        exit();
-    }
+adminOnly();
 
-    include "../includes/header.php";
-    include "../includes/sidebar.php";
+include "../includes/header.php";
+include "../includes/sidebar.php";
 
-    /* Search */
-    if (isset($_GET['search']) && trim($_GET['search']) != "") {
+/* Search */
+if (isset($_GET['search']) && trim($_GET['search']) != "") {
 
-        $search = mysqli_real_escape_string($conn, $_GET['search']);
+    $search = mysqli_real_escape_string($conn, $_GET['search']);
 
-        $sql = "SELECT * FROM products
+    $sql = "SELECT * FROM products
             WHERE product_code LIKE '%$search%'
                OR product_name LIKE '%$search%'
                OR category LIKE '%$search%'
                OR supplier LIKE '%$search%'
             ORDER BY id DESC";
-    } else {
+} else {
 
-        $sql = "SELECT * FROM products ORDER BY id DESC";
-    }
+    $sql = "SELECT * FROM products ORDER BY id DESC";
+}
 
-    $result = mysqli_query($conn, $sql);
-    ?>
+$result = mysqli_query($conn, $sql);
+?>
 
 <div class="main-content">
     <div class="container-fluid">
@@ -61,9 +59,14 @@
                 <i class="bi bi-box-seam"></i> Products
             </h2>
 
-            <a href="add_product.php" class="btn btn-primary">
-                <i class="bi bi-plus-circle"></i> Add Product
-            </a>
+            <?php if (isAdmin()): ?>
+
+                <a href="add_product.php" class="btn btn-primary">
+                    <i class="bi bi-plus-circle"></i>
+                    Add Product
+                </a>
+
+            <?php endif; ?>
 
         </div>
 
@@ -212,23 +215,25 @@
 
                                             </a>
 
-                                            <a href="edit_product.php?id=<?= $row['id']; ?>"
-                                                class="btn btn-warning btn-sm"
-                                                title="Edit">
+                                            <?php if (isAdmin()): ?>
 
-                                                <i class="bi bi-pencil-square"></i>
+                                                <a href="edit_product.php?id=<?= $row['id']; ?>" class="btn btn-warning btn-sm">
+                                                    <i class="bi bi-pencil"></i>
+                                                </a>
 
-                                            </a>
+                                            <?php endif; ?>
 
-                                            <a href="#"
-                                                class="btn btn-danger btn-sm deleteBtn"
-                                                data-url="delete_product.php?id=<?= $row['id']; ?>"
-                                                title="Delete">
+                                            <?php if (isAdmin()): ?>
+                                                <a href="#"
+                                                    class="btn btn-danger btn-sm deleteBtn"
+                                                    data-url="delete_product.php?id=<?= $row['id']; ?>"
+                                                    title="Delete">
 
-                                                <i class="bi bi-trash"></i>
+                                                    <i class="bi bi-trash"></i>
 
-                                            </a>
-
+                                                </a>
+                                            <?php endif; ?>
+                                            
                                         </td>
 
                                     </tr>

@@ -1,10 +1,8 @@
 <?php
 require_once "../includes/config.php";
+require_once "../includes/auth.php";
 
-if(!isset($_SESSION['user_id'])){
-    header("Location: ../login.php");
-    exit();
-}
+staffOnly();
 
 if(!isset($_GET['id'])){
     header("Location: customers.php");

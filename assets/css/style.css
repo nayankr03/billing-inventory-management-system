@@ -105,6 +105,65 @@ body{
 }
 
 /* ==========================
+   SIDEBAR ACTIVE MENU
+========================== */
+
+.sidebar ul li a.active{
+    background:#2563eb;
+    color:#fff;
+    font-weight:600;
+    box-shadow:0 4px 12px rgba(37,99,235,.35);
+}
+
+.sidebar ul li a.active i{
+    color:#fff;
+}
+
+/* Divider */
+
+.sidebar-divider{
+    border:0;
+    border-top:1px solid rgba(255,255,255,.15);
+    margin:15px;
+}
+
+/* Logo */
+
+.logo{
+    padding:20px 15px;
+}
+
+.logo h3{
+    color:#fff;
+    font-size:28px;
+    font-weight:700;
+    margin-bottom:5px;
+}
+
+.logo small{
+    display:block;
+    color:rgba(255,255,255,.75);
+    font-size:13px;
+    font-weight:400;
+}
+
+/* Icons */
+
+.sidebar ul li a i{
+    font-size:18px;
+    width:22px;
+    text-align:center;
+}
+
+/* Smooth Hover */
+
+.sidebar ul li a:hover{
+    background:#2563eb;
+    transform:translateX(4px);
+    box-shadow:0 4px 12px rgba(37,99,235,.30);
+}
+
+/* ==========================
    MAIN CONTENT
 ========================== */
 

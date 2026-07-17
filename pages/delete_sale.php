@@ -1,10 +1,9 @@
 <?php
-require_once "../includes/config.php";
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../login.php");
-    exit();
-}
+require_once "../includes/config.php";
+require_once "../includes/auth.php";
+
+adminOnly();
 
 if (!isset($_GET['id'])) {
     header("Location: sales.php");

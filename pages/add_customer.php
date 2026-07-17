@@ -1,10 +1,8 @@
 <?php
 require_once "../includes/config.php";
+require_once "../includes/auth.php";
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../login.php");
-    exit();
-}
+staffOnly();
 
 /* Auto Customer Code */
 $q = mysqli_query($conn, "SELECT id FROM customers ORDER BY id DESC LIMIT 1");

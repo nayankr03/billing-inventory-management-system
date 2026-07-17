@@ -1,10 +1,8 @@
 <?php
 require_once "../includes/config.php";
+require_once "../includes/auth.php";
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../login.php");
-    exit();
-}
+staffOnly();
 
 include "../includes/header.php";
 include "../includes/sidebar.php";
@@ -91,16 +89,11 @@ $items = mysqli_stmt_get_result($stmt);
                 Back to Sales
 
             </a>
-
-            <button
-                onclick="window.print()"
-                class="btn btn-success">
-
-                <i class="bi bi-printer"></i>
-
-                Print Invoice
-
-            </button>
+            <a href="invoice_pdf.php?id=<?= $sale['id']; ?>"
+                target="_blank"
+                class="btn btn-primary">
+                <i class="bi bi-printer"></i> Print Invoice
+            </a>
 
         </div>
 
@@ -316,7 +309,7 @@ $items = mysqli_stmt_get_result($stmt);
                                     </tfoot>
 
                                 </table>
-                               <hr class="my-2">
+                                <hr class="my-2">
 
                                 <div class="text-center mt-3 pt-2 border-top">
 

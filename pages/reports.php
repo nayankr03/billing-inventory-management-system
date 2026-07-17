@@ -1,10 +1,8 @@
 <?php
 require_once "../includes/config.php";
+require_once "../includes/auth.php";
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../login.php");
-    exit();
-}
+adminOnly();
 
 include "../includes/header.php";
 include "../includes/sidebar.php";
@@ -131,7 +129,7 @@ $recentSales = mysqli_query(
 
             <h2 class="fw-bold">
 
-                <i class="bi bi-bar-chart-line-fill"></i>
+                <i class="bi bi-graph-up-arrow"></i>
 
                 Reports Dashboard
 

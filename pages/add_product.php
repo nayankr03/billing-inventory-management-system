@@ -1,11 +1,8 @@
 <?php
-
 require_once "../includes/config.php";
+require_once "../includes/auth.php";
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../login.php");
-    exit();
-}
+adminOnly();
 
 /* Auto Product Code */
 $codeQuery = mysqli_query($conn, "SELECT id FROM products ORDER BY id DESC LIMIT 1");

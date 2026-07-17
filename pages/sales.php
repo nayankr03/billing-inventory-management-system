@@ -1,10 +1,8 @@
 <?php
 require_once "../includes/config.php";
+require_once "../includes/auth.php";
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../login.php");
-    exit();
-}
+staffOnly();
 
 include "../includes/header.php";
 include "../includes/sidebar.php";
@@ -409,14 +407,16 @@ if ($averageBill == NULL) {
 
                                             </a>
 
-                                            <a href="#"
-                                                class="btn btn-danger btn-sm deleteSale"
-                                                data-id="<?= $row['id']; ?>">
+                                            <?php if (isAdmin()): ?>
 
-                                                <i class="bi bi-trash"></i>
+                                                <a href="delete_sale.php?id=<?= $row['id']; ?>"
+                                                    class="btn btn-danger btn-sm">
 
-                                            </a>
+                                                    <i class="bi bi-trash"></i>
 
+                                                </a>
+
+                                            <?php endif; ?>
                                         </td>
 
                                     </tr>

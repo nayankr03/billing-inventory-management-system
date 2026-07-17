@@ -1,11 +1,10 @@
 <?php
 require_once "../includes/config.php";
+require_once "../includes/auth.php";
+
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-if (!isset($_SESSION['user_id'])) {
-    header("Location: ../login.php");
-    exit();
-}
+staffOnly();
 /* -------------------------
    AUTO INVOICE NUMBER
 --------------------------*/
